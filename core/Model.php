@@ -104,8 +104,9 @@ class Model {
         $id = ($id == '') ? $this->id : $id;
         if($this->_softDelete) {
             $this->update($id, ['deleted' => 1]);
+        } else {
+            return $this->_db->delete($this->_table, $id);
         }
-        return $this->_db->delete($this->_table, $id);
     }
     
     public function query($sql, $bind=[]) {

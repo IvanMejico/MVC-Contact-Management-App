@@ -21,6 +21,12 @@
                     <td><?= $contact->cell_phone ?></td>
                     <td><?= $contact->home_phone ?></td>
                     <td><?= $contact->work_phone ?></td>
+                    <td>
+                        <a href="<?=PROOT?>contacts/delete/<?=$contact->id?>" class="btn btn-danger btn-xs" onclick="if(!confirm('Are you sure?')){return false;}">
+                            <i class="glyphicon glyphicon-remove"></i> Delete
+                        </a>
+                    </td>
+
                 </tr>
             <?php endforeach; ?>
         </tbody>

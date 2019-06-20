@@ -1,22 +1,13 @@
 <?php
 
 class Model {
-    protected $_db, $_table, $_modelName, $_softDelete = false, $_columnNames = [];
+    protected $_db, $_table, $_modelName, $_softDelete = false;
     public $id;
 
     public function __construct($table) {
         $this->_db = DB::getInstance();
         $this->_table = $table;        
-        $this->_setTableColumns();
         $this->_modelName = str_replace(' ', '', ucwords(str_replace('_',' ', $this->_table)));
-    }
-
-    protected function _setTableColumns() {
-        $columns = $this->get_columns();
-        foreach($columns as $column) {
-            $this->_columnNames[] = $column->Field;
-            // $this->{$columnName} = null; // This procues a 'variable undefined' error
-        }
     }
 
     public function get_columns() {
@@ -40,34 +31,15 @@ class Model {
 
     public function find($params = []) {
         $params = $this->_softDeleteParams($params);
-        $results = [];
-        $resultsQuery = $this->_db->find($this->_table, $params);
+        $resultsQuery = $this->_db->find($this->_table, $params, get_class($this));
         if(!$resultsQuery) return []; // Return and empty array if no record is found
-        foreach($resultsQuery as $result) {
-            $obj = new $this->_modelName($this->_table);
-            $obj->populateObjData($result);
-            $results[] = $obj;
-        }
-        return $results;
+        return $resultsQuery;
     }
 
     public function findFirst($params = []) {
         $params = $this->_softDeleteParams($params);
-        $resultsQuery = $this->_db->findFirst($this->_table, $params);
-        $result = new $this->_modelName($this->_table);
-
-        // There is a problem here. The logic did not work out well.
-        //  When findFirst() method returns false, the populateObjData() method
-        //  don't get executed thus creating an error when password property is 
-        //  accessed in the Register.php
-
-        if($resultsQuery) {
-            $result->populateObjData($resultsQuery);
-            return $result;
-        }
-        // This line of code produces a bug so I changeg the return value to false
-        // return $result; 
-        return false;
+        $resultQuery = $this->_db->findFirst($this->_table, $params, get_class($this));
+        return $resultQuery;
     }
 
     public function findById($id) {
@@ -75,12 +47,7 @@ class Model {
     }
 
     public function save() {
-        $fields = [];
-        foreach($this->_columnNames as $column) {
-            // I think the problem is in this line of code. The _columnNames 
-            //  array has more elements than the actual inputted data.
-            $fields[$column] = $this->$column; 
-        }
+        $fields = getObjectProperties($this);
         // determine whether to update or insert
         if(property_exists($this, 'id') && $this->id != '') {
             return $this->update($this->id, $fields);
@@ -115,8 +82,8 @@ class Model {
 
     public function data() {
         $data = new stdClass();
-        foreach($this->_columnNames as $column) {
-            $data->column = $this->column;
+        foreach(getObjectProperties($this) as $column => $value) {
+            $data->column = $value;
         }
         return $data;
     }
@@ -126,7 +93,7 @@ class Model {
     public function assign($params) {
         if(!empty($params)) {
             foreach($params as $key => $value) {
-                if(in_array($key, $this->_columnNames)) {
+                if(property_exists($this, $key)) {
                     $this->$key = sanitize($value);
                 }
             }

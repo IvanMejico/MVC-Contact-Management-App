@@ -16,8 +16,8 @@ class Validate {
             }
         }
         foreach($items as $item => $rules) {
-            $item = Input::sanitize($item); // This sanitizes the global array
-            $value = Input::sanitize(trim($source[$item])); // $source['password']
+            $item = FH::sanitize($item); // This sanitizes the global array
+            $value = FH::sanitize(trim($source[$item])); // $source['password']
             $display = $rules['display'];
             foreach($rules as $rule => $rule_value) {
                 if($rule === 'required' && empty($value)) {

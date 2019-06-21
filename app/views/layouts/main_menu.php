@@ -2,7 +2,7 @@
     $menu = Router::getMenu('menu_acl'); 
     // dnd($menu);
     // dnd($_SESSION);
-    $currentPage = currentPage();
+    $currentPage = H::currentPage();
 ?>
 
 <nav class="navbar navbar-default">
@@ -44,8 +44,8 @@
                 <?php endforeach; ?>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <?php if(currentUser()): ?>
-                    <li><a href="#">Hello <?=currentUser()->fname?></a></li>
+                <?php if(Users::currentUser()): ?>
+                    <li><a href="#">Hello <?=Users::currentUser()->fname?></a></li>
                 <?php endif; ?>
             </ul>
         </div><!-- /.navbar-collapse -->

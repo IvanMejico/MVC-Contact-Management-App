@@ -2,7 +2,7 @@
 <form action="<?=$this->postAction?>" class="form" method="post">
     <div class="bg-danger form-errors"><?=$this->displayErrors?></div>
     <?= FH::csrfInput()?>
-    <?= inputBlock(
+    <?= FH::inputBlock(
             'text', 
             'First Name', 
             'fname', 
@@ -11,7 +11,7 @@
             ['class'=>'form-group col-md-6']
         ); 
     ?>
-    <?= inputBlock(
+    <?= FH::inputBlock(
             'text', 
             'Last Name', 
             'lname', 
@@ -20,7 +20,7 @@
             ['class'=>'form-group col-md-6']
         ); 
     ?>
-    <?= inputBlock(
+    <?= FH::inputBlock(
             'text', 
             'Address', 
             'address', 
@@ -29,7 +29,7 @@
             ['class'=>'form-group col-md-6']
         ); 
     ?>
-    <?= inputBlock(
+    <?= FH::inputBlock(
             'text', 
             'Address 2', 
             'address2', 
@@ -38,7 +38,7 @@
             ['class'=>'form-group col-md-6']
         ); 
     ?>
-    <?= inputBlock(
+    <?= FH::inputBlock(
             'text', 
             'City', 
             'city', 
@@ -47,7 +47,7 @@
             ['class'=>'form-group col-md-5']
         ); 
     ?>
-    <?= inputBlock(
+    <?= FH::inputBlock(
             'text', 
             'State', 
             'state', 
@@ -56,7 +56,7 @@
             ['class'=>'form-group col-md-3']
         ); 
     ?>
-    <?= inputBlock(
+    <?= FH::inputBlock(
             'text', 
             'Zip Code', 
             'zip', 
@@ -65,7 +65,7 @@
             ['class'=>'form-group col-md-4']
         ); 
     ?>
-    <?= inputBlock(
+    <?= FH::inputBlock(
             'text', 
             'Email', 
             'email', 
@@ -74,7 +74,7 @@
             ['class'=>'form-group col-md-6']
         ); 
     ?>
-    <?= inputBlock(
+    <?= FH::inputBlock(
             'text', 
             'Cell Phone', 
             'cell_phone', 
@@ -83,7 +83,7 @@
             ['class'=>'form-group col-md-6']
         ); 
     ?>
-    <?= inputBlock(
+    <?= FH::inputBlock(
             'text', 
             'Home Phone', 
             'home_phone', 
@@ -92,7 +92,7 @@
             ['class'=>'form-group col-md-6']
         ); 
     ?>
-    <?= inputBlock(
+    <?= FH::inputBlock(
             'text', 
             'Work Phone', 
             'work_phone', 
@@ -103,6 +103,6 @@
     ?>
     <div class="col-md-12 text-right">
         <a href="<?=PROOT?>contacts" class="btn btn-default">Cancel</a>
-        <?= submitTag('Save', ['class' => 'btn btn-primary']) ?>
+        <?= FH::submitTag('Save', ['class' => 'btn btn-primary']) ?>
     </div>
 </form>

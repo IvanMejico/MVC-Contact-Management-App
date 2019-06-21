@@ -47,4 +47,16 @@ class FH {
     public static function csrfInput() {
         return '<input type="hidden" name="csrf_token" id="csrf_token" value="'. self::generateToken() .'" />';
     }
+
+    public static function sanitize($dirty) {
+        return htmlentities($dirty, ENT_QUOTES, 'UTF-8');
+    }
+    
+    public static function posted_values($post) {
+        $clean_ary = [];
+        foreach($post as $key => $value) {
+            $clean_ary[$key] = self::sanitize($value);
+        }
+        return $clean_ary;
+    }
 }

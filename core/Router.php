@@ -54,7 +54,7 @@ class Router {
 
         if(Session::exists(CURRENT_USER_SESSION_NAME)) { // Check if user is logged in
             $current_user_acls[] = "LoggedIn";
-            foreach(currentUser()->acls() as $a) {  // Retrieve acl data from database
+            foreach(Users:: currentUser()->acls() as $a) {  // Retrieve acl data from database
                 $current_user_acls[] = $a;
             }
         }

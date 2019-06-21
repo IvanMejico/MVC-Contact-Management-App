@@ -1,7 +1,7 @@
 <?php
 
 class Model {
-    protected $_db, $_table, $_modelName, $_softDelete = false, $_validate=true, $_validationErrors=[];
+    protected $_db, $_table, $_modelName, $_softDelete = false, $_validates=true, $_validationErrors=[];
     public $id;
 
     public function __construct($table) {
@@ -123,7 +123,7 @@ class Model {
     }
 
     public function getErrorMessages() {
-        return $this->validationErrors;
+        return $this->_validationErrors;
     }
 
     public function validationPasses() {

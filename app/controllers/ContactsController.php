@@ -19,7 +19,7 @@ class ContactsController extends Controller {
         $validation = new Validate();
         if($_POST) {
             $contact->assign($_POST);
-            $validation->check($_POST, Contacts::$addValidation);
+            $validation->check($_POST, Contacts::$addValidation, true);
             if($validation->passed()) {
                 $contact->user_id = currentUser()->id;
                 $contact->save();
@@ -38,7 +38,7 @@ class ContactsController extends Controller {
         $validation = new Validate();
         if($_POST) {
             $contact->assign($_POST);
-            $validation->check($_POST, Contacts::$addValidation);
+            $validation->check($_POST, Contacts::$addValidation, true);
             if($validation->passed()) {
                 $contact->save();
                 Router::redirect('contacts');

@@ -1,7 +1,7 @@
 <?php
 
 class Users extends Model {
-    private $_isLoggedIn, $_sessionName, $_cookieName;
+    private $_isLoggedIn, $_sessionName, $_cookieName, $_confirm;
     public static $currentLoggedInUser = null;
     public $id, $username, $email, $password, $fname, $lname, $acl, $deleted = 0;
 
@@ -26,7 +26,17 @@ class Users extends Model {
     }
 
     public function validator() {
+        $this->runValidation(new RequiredValidator($this, ['field'=>'fname', 'msg'=>'First Name is required']));
+        $this->runValidation(new RequiredValidator($this, ['field'=>'lname', 'msg'=>'Last Name is required']));
+        $this->runValidation(new RequiredValidator($this, ['field'=>'email', 'msg'=>'Email is required']));
+        $this->runValidation(new EmailValidator($this, ['field' => 'email', 'msg' => 'You must provide a valid email address']));
+        $this->runValidation(new MaxValidator($this, ['field'=>'email', 'rule' => 150, 'msg'=>'Email must be less than 150 characters.']));
         $this->runValidation(new MinValidator($this, ['field'=>'username', 'rule'=>6, 'msg'=>'Username must be at least 6 characters.']));
+        $this->runValidation(new MaxValidator($this, ['field'=>'username', 'rule' => 150, 'msg'=>'Username must be less than 150 characters.']));
+        $this->runValidation(new UniqueValidator($this, ['field'=>'username', 'msg'=>"That username already exists. Please use a new one"]));
+        $this->runValidation(new RequiredValidator($this, ['field'=>'password', 'msg'=>'Password is required']));
+        $this->runValidation(new MinValidator($this, ['field'=>'password', 'msg'=>'Password must be a minimum 6 characters.']));
+        $this->runValidation(new MatchesValidator($this, ['field'=>'password', 'rule'=>$this->_confirm, 'msg'=>"Your passwod do not match"]));
     }
 
     public function findByUsername($username) {
@@ -85,5 +95,13 @@ class Users extends Model {
     public function acls() {
         if(empty($this->acl)) return [];
         return json_decode($this->acl, true);
+    }
+
+    public function setConfirm($value) {
+        $this->_confirm = $value;
+    }
+
+    public function getConfirm() {
+        return $this->_confirm;
     }
 }

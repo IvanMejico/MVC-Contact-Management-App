@@ -8,32 +8,25 @@ class RegisterController extends Controller {
     }
 
     public function loginAction() {
-        $validation = new Validate();
-        if($_POST) {
+        $loginModel = new Login();
+        if($this->request->isPost()) {
             // form validation
-            $validation->check($_POST, [ 
-                'username' => [
-                    'display' => "Username",
-                    'required' => true
-                ],
-                'password' => [
-                    'display' => 'Password',
-                    'required' => true,
-                    'min' => 6
-                ]
-                ], true);
-            if($validation->passed()) {
+            $this->request->csrfCheck();
+            $loginModel->assign($this->request->get());
+            $loginModel->validator();
+            if($loginModel->validationPassed()) {
                 $user = $this->UsersModel->findByUsername($_POST['username']);
-                if($user && password_verify(Input::get('password'), $user->password)) {
-                    $remember = (isset($_POST['remember_me']) && Input::get('remember_me')) ? true : false;
+                if($user && password_verify($this->request->get('password'), $user->password)) {
+                    $remember = $loginModel->getRememberMeChecked();
                     $user->login($remember);
                     Router::redirect('');
                 } else {
-                    $validation->addError("There is an error with you username or password.");
+                    $loginModel->addErrorMessage('username', 'There is an error with your username or password');
                 }
             }
         }
-        $this->view->displayErrors = $validation->displayErrors();
+        $this->view->login = $loginModel;
+        $this->view->displayErrors = $loginModel->getErrorMessages();
         $this->view->render('register/login');
     }
 

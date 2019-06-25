@@ -98,7 +98,7 @@ class Model {
         if(!empty($params)) {
             foreach($params as $key => $value) {
                 if(property_exists($this, $key)) {
-                    $this->$key = FH::sanitize($value);
+                    $this->$key = $value;
                 }
             }
             return true;

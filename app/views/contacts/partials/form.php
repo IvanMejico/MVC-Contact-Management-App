@@ -1,6 +1,6 @@
 
 <form action="<?=$this->postAction?>" class="form" method="post">
-    <div class="bg-danger form-errors"><?=$this->displayErrors?></div>
+    <?= FH::displayErrors($this->displayErrors) ?>
     <?= FH::csrfInput()?>
     <?= FH::inputBlock(
             'text', 

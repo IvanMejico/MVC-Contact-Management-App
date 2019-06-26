@@ -1,5 +1,8 @@
 <?php
 
+namespace Core\Validators;
+use Core\Validators\CustomValidator;
+
 class MatchesValidator extends CustomValidator {
 
     public function runValidation() {

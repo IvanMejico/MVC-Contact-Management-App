@@ -1,7 +1,8 @@
 <?php
+    use Core\Router;
+    use Core\H;
+    use App\Models\Users;
     $menu = Router::getMenu('menu_acl'); 
-    // dnd($menu);
-    // dnd($_SESSION);
     $currentPage = H::currentPage();
 ?>
 

@@ -1,5 +1,18 @@
 <?php
 
+namespace App\Models;
+use Core\Model;
+// use App\Models\Users;
+use App\Models\UserSessions;
+use Core\Cookie;
+use Core\Session;
+use Core\Validators\MinValidator;
+use Core\Validators\MaxValidator;
+use Core\Validators\RequiredValidator;
+use Core\Validators\EmailValidator;
+use Core\Validators\MatchesValidator;
+use Core\Validators\UniqueValidator;
+
 class Users extends Model {
     private $_isLoggedIn, $_sessionName, $_cookieName, $_confirm;
     public static $currentLoggedInUser = null;
@@ -13,9 +26,9 @@ class Users extends Model {
         $this->_softDelete = True;
         if($user != '') {
             if(is_int($user)) {
-                $u = $this->_db->findFirst('users', ['conditions'=>'id = ?', 'bind'=>[$user]], get_class($this));
+                $u = $this->_db->findFirst('users', ['conditions'=>'id = ?', 'bind'=>[$user]], 'App\Models\Users');
             } else {
-                $u = $this->_db->findFirst('users', ['conditions'=>'username = ?', 'bind'=>[$user]], get_class($this));
+                $u = $this->_db->findFirst('users', ['conditions'=>'username = ?', 'bind'=>[$user]], 'App\Models\Users');
             }
             if($u) {
                 foreach($u as $key => $val) {
@@ -36,7 +49,7 @@ class Users extends Model {
         $this->runValidation(new UniqueValidator($this, ['field'=>'username', 'msg'=>"That username already exists. Please use a new one"]));
         $this->runValidation(new RequiredValidator($this, ['field'=>'password', 'msg'=>'Password is required']));
         $this->runValidation(new MinValidator($this, ['field'=>'password', 'msg'=>'Password must be a minimum 6 characters.']));
-        $this->runValidation(new MatchesValidator($this, ['field'=>'password', 'rule'=>$this->_confirm, 'msg'=>"Your passwod do not match"]));
+        $this->runValidation(new MatchesValidator($this, ['field'=>'password', 'rule'=>$this->_confirm, 'msg'=>"Your password do not match"]));
     }
 
 

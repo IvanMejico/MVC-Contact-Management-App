@@ -1,5 +1,9 @@
 <?php
 
+namespace Core;
+use \PDO;
+use \PDOException;
+
 /**
  * This pretty much covers all the database processes and CRUD operations
  */
@@ -20,7 +24,7 @@ class DB {
 
     public static function getInstance() {
         if(!isset(self::$_instance)) {
-            self::$_instance = new DB();
+            self::$_instance = new self();
         }
         return self::$_instance;
     }

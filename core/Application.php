@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 class Application {
     public function __construct() {
         $this->_set_reporting();

@@ -1,5 +1,12 @@
 <?php
 
+namespace App\Controllers;
+use Core\Controller;
+use Core\Session;
+use Core\Router;
+use App\Models\Contacts;
+use App\Models\Users;
+
 class ContactsController extends Controller {
     
     public function __construct($controller, $action) {
@@ -16,7 +23,6 @@ class ContactsController extends Controller {
 
     public function addAction() {
         $contact = new Contacts();
-        $validation = new Validate();
         if($this->request->isPost()) {
             $this->request->csrfCheck();
             $contact->assign($this->request->get());
@@ -34,7 +40,6 @@ class ContactsController extends Controller {
     public function editAction($id) {
         $contact = $this->ContactsModel->findByIdAndUserId((int)$id, Users::currentUser()->id);
         if(!$contact) Router::redirect('contacts');
-        $validation = new Validate();
         if($this->request->isPost()) {
             $this->request->csrfCheck();
             $contact->assign($this->request->get());

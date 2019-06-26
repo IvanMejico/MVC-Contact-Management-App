@@ -1,4 +1,4 @@
-
+<?php use Core\FH; ?>
 <form action="<?=$this->postAction?>" class="form" method="post">
     <?= FH::displayErrors($this->displayErrors) ?>
     <?= FH::csrfInput()?>

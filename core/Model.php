@@ -144,4 +144,8 @@ class Model {
 
     public function beforeSave() {}
     public function afterSave() {}
+
+    public function isNew() {
+        return (property_exists($this, 'id') && !empty($this->id)) ? false : true;
+    }
 }

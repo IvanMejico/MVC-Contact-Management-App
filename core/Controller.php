@@ -21,4 +21,12 @@ class Controller extends Application {
             $this->{$model.'Model'} = new $modelPath();
         }
     }
+
+    public function jsonResponse($resp) {
+        header("Acess-Control-Allow-Origin: *");
+        header("Content-Type: application/json; charset=UTF-8");
+        http_response_code(200);
+        echo json_encode($resp);
+        exit;
+    }
 }
